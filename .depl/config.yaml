@@ -1,0 +1,67 @@
+project_name: async-io-pipe
+version: 8
+ignore_files:
+  - .git
+  - Cargo.lock
+  - target
+cache_files:
+  - Cargo.lock
+  - target
+actions:
+  - info: cargo-fmt@0.1.0
+    requirements:
+      - type: in_path
+        executable: cargo
+        desc: "Install `cargo` via your package manager or with this command: `curl https://sh.rustup.rs -sSf | sh`."
+    exec_in_project_dir: true
+    skip_sync: false
+    action:
+      type: staged
+      stage: build
+      cmd: cargo fmt -- --config tab_spaces=2,max_width=120 */**/*.rs
+  - info: cargo-lint@0.1.0
+    requirements:
+      - type: in_path
+        executable: cargo
+        desc: "Install `cargo` via your package manager or with this command: `curl https://sh.rustup.rs -sSf | sh`."
+    action:
+      type: staged
+      stage: build
+      cmd: cargo clippy
+      show_success_output: true
+  - info: cargo-release@0.1.0
+    tags:
+      - rust
+      - cargo
+    requirements:
+      - type: in_path
+        executable: cargo
+        desc: "Install `cargo` via your package manager or with this command: `curl https://sh.rustup.rs -sSf | sh`."
+    action:
+      type: staged
+      stage: build
+      cmd: cargo build --release
+  - info: cargo-test@0.1.0
+    action:
+      type: staged
+      stage: build
+      cmd: cargo test
+pipelines:
+  - title: build
+    desc: Build `async-io-pipe`
+    info: async-io-pipe-build@0.1.0
+    tags:
+      - rust
+      - cargo
+      - clippy
+      - fmt
+    default: true
+    actions:
+      - title: Lint
+        used: cargo-lint@0.1.0
+      - title: Format
+        used: cargo-fmt@0.1.0
+      - title: Build
+        used: cargo-release@0.1.0
+      - title: Test
+        used: cargo-test@0.1.0
