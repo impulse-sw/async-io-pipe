@@ -65,3 +65,15 @@ pipelines:
         used: cargo-release@0.1.0
       - title: Test
         used: cargo-test@0.1.0
+    gh_opts:
+      on_push_branches:
+        - master
+      on_pull_requests_branches:
+        - master
+      preflight_steps:
+        - name: Install Rust Toolchain
+          uses: actions-rust-lang/setup-rust-toolchain@v1
+          with:
+            components: clippy, rustfmt
+            target: x86_64-unknown-linux-gnu
+            toolchain: 1.92.0
