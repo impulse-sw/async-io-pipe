@@ -65,6 +65,21 @@ pipelines:
         used: cargo-release@0.1.0
       - title: Test
         used: cargo-test@0.1.0
+  - title: ci
+    desc: "`async-io-pipe` CI"
+    info: async-io-pipe-ci@0.1.0
+    tags:
+      - rust
+      - cargo
+      - clippy
+    default: true
+    actions:
+      - title: Lint
+        used: cargo-lint@0.1.0
+      - title: Build
+        used: cargo-release@0.1.0
+      - title: Test
+        used: cargo-test@0.1.0
     gh_opts:
       on_push_branches:
         - master
@@ -74,6 +89,6 @@ pipelines:
         - name: Install Rust Toolchain
           uses: actions-rust-lang/setup-rust-toolchain@v1
           with:
-            components: clippy, rustfmt
+            components: clippy
             target: x86_64-unknown-linux-gnu
             toolchain: 1.92.0
