@@ -8,7 +8,7 @@
 //!
 //! #[tokio::main]
 //! async fn main() {
-//!   let (writer, reader) = async_pipe().unwrap();
+//!   let (writer, mut reader) = async_pipe().unwrap();
 //!   let mut child = Command::new("cargo")
 //!     .arg("build")
 //!     .stdout(writer.try_clone().unwrap())
