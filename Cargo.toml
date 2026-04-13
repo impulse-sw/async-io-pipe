@@ -8,8 +8,10 @@ license = "MIT"
 repository = "https://github.com/impulse-sw/async-io-pipe"
 
 [dependencies]
-nix = { version = "0.30" }
-tokio = { version = "1", features = ["io-std", "net"] }
+tokio = { version = "1", features = ["io-std", "net", "sync"] }
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
 
 [dev-dependencies]
 tokio = { version = "1", features = ["macros", "rt-multi-thread", "sync"] }
